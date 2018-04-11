@@ -1,0 +1,47 @@
+<% require "json"
+require "open-uri"
+require "uri"
+require "rss"
+
+require "active_support/all"
+
+#JSON that returns the top 500 stories on Hacker News
+stories = open("https://hacker-news.firebaseio.com/v0/topstories.json")
+json = stories.read
+data = JSON.parse(json)
+top25 = data.first(25) %>
+
+
+<div class = "container">
+<div class = "row">
+  <div class = "col">
+    <h2><i class="fab fa-hacker-news-square"></i> Hacker News</h2>
+    <!--#JSON that returns the headline and url of the top stories from Hacker News-->
+    <% for story in top25 %>
+      <% x = open("https://hacker-news.firebaseio.com/v0/item/#{story}.json") %>
+      <% story_json = x.read %>
+      <% story_data = JSON.parse(story_json) %>
+      <% story_title = story_data["title"] %>
+      <% story_url = story_data["url"] %>
+      <p><%= story_title %></p>
+      <a href="<%=story_url %>"><%= story_url %></a>
+      </p>
+    <% end %>
+  </div>
+  <div class = "col" >
+    <h2><i class="fab fa-vuejs"></i> The Verge</h2>
+    <% verge = open("https://www.theverge.com/rss/index.xml") %>
+
+    <% xml = File.open(verge) %>
+    <% hash = Hash.from_xml(xml) %>
+
+    <% i = 0 %>
+    <% while i < 10 %>
+      <p><%= hash["feed"]["entry"][i]["title"] %></p>
+      <a href="<%= hash["feed"]["entry"][i]["id"] %>">Link</a>
+      <p></p>
+      <% i += 1 %>
+    <% end %>
+  </div>
+</div>
+</div>
