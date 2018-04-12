@@ -1,6 +1,6 @@
 # One Reader App
 
-##APIs Used:
+## APIs Used:
 * Twilio
 * Hacker News
 * Forismatic Random Quote API
