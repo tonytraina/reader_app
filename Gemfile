@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'twilio-ruby'
+
 gem 'ez'
 gem 'bootsnap', require: false
 gem 'rails', '~> 5.1.4'

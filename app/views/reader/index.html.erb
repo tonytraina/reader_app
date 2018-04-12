@@ -2,6 +2,8 @@
 require "open-uri"
 require "uri"
 require "rss"
+require 'rubygems'
+require 'twilio-ruby'
 
 require "active_support/all"
 
@@ -47,6 +49,8 @@ top25 = data.first(25) %>
     <% xml = File.open(verge) %>
     <% hash = Hash.from_xml(xml) %>
 
+
+
     <% i = 0 %>
     <% while i < 10 %>
       <p><%= hash["feed"]["entry"][i]["title"] %></p>
@@ -54,6 +58,25 @@ top25 = data.first(25) %>
       <p></p>
       <% i += 1 %>
     <% end %>
+    <hr>
+    <b>This app also uses the SMS API from:</b>
+    <img style="max-width:80%" src = "https://www.twilio.com/marketing/bundles/company-brand/img/logos/red/twilio-logo-red.png">
   </div>
 </div>
+
+<!--Twilio API sends the first headline from the verge to my phone number-->
+
+<% account_sid = 'AC0cafc4e1e28024c1467b0ebf2230d905'
+auth_token = '2bb6299229dba6687f93b50274ec2f0e'
+client = Twilio::REST::Client.new account_sid, auth_token
+
+from = '+13123135135' # Your Twilio number
+to = '+13179190079' # Your mobile phone number
+
+client.messages.create(
+from: from,
+to: to,
+body:
+  hash["feed"]["entry"][0]["title"]
+) %>
 </div>
