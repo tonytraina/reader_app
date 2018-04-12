@@ -28,7 +28,7 @@ top25 = data.first(25) %>
 <!-- display Hacker News and The Verge in two columns, inside container-->
 <div class = "container">
 <div class = "row">
-  <div class = "col">
+  <div class = "col-sm-6">
     <h2><i class="fab fa-hacker-news-square"></i> Hacker News</h2>
     <!--#JSON that returns the headline and url of the top stories from Hacker News-->
     <% for story in top25 %>
@@ -38,23 +38,21 @@ top25 = data.first(25) %>
       <% story_title = story_data["title"] %>
       <% story_url = story_data["url"] %>
       <p><%= story_title %></p>
-      <a href="<%=story_url %>"><%= story_url %></a>
+      <a href="<%=story_url %>"><%= story_url %> <i class="fas fa-link"></i></a>
       </p>
     <% end %>
   </div>
-  <div class = "col" >
+  <div class = "col-sm-6" >
     <h2><i class="fab fa-vuejs"></i> The Verge</h2>
     <% verge = open("https://www.theverge.com/rss/index.xml") %>
 
     <% xml = File.open(verge) %>
     <% hash = Hash.from_xml(xml) %>
 
-
-
     <% i = 0 %>
     <% while i < 10 %>
       <p><%= hash["feed"]["entry"][i]["title"] %></p>
-      <a href="<%= hash["feed"]["entry"][i]["id"] %>">Link</a>
+      <a href="<%= hash["feed"]["entry"][i]["id"] %>">Link <i class="fas fa-link"></i></a>
       <p></p>
       <% i += 1 %>
     <% end %>
@@ -77,6 +75,6 @@ client.messages.create(
 from: from,
 to: to,
 body:
-  hash["feed"]["entry"][0]["title"]
+  hash["feed"]["entry"][0]["id"]
 ) %>
 </div>
