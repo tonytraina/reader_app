@@ -5,13 +5,25 @@ require "rss"
 
 require "active_support/all"
 
-#JSON that returns the top 500 stories on Hacker News
+#random quote generator
+rand_quote = open("https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
+read_rand = rand_quote.read
+quote_hash = JSON.parse(read_rand)
+quote_text = quote_hash["quoteText"]
+quote_author = quote_hash["quoteAuthor"] %>
+
+<!--display random quote -->
+<center><em><%= quote_text %></em>
+<em> – <%= quote_author %></em></center>
+<hr>
+
+<% #JSON that returns the top 500 stories on Hacker News
 stories = open("https://hacker-news.firebaseio.com/v0/topstories.json")
 json = stories.read
 data = JSON.parse(json)
 top25 = data.first(25) %>
 
-
+<!-- display Hacker News and The Verge in two columns, inside container-->
 <div class = "container">
 <div class = "row">
   <div class = "col">
